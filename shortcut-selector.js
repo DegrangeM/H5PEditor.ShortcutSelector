@@ -34,51 +34,58 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
     this.$item.addClass('h5p-shortcut-selector');
     this.$inputs = this.$item.find('input');
     this.$inputs.eq(0).keydown(function (e) {
+      // The input will reset when we focus the input, but only after the user start pressing a first key
+      // This allow the user to focus the field then do nothing and focus out without resetting the field
+      // This is usefull as the user can focus the field by clicking on the label, pressing tab, etc.
       if ($(this).data('need-reset')) {
         $(this).val("");
       }
       $(this).data('need-reset', false);
-      // that.$inputs.eq(1).show();
+      
       let key = H5PEditor.findField('shortcutMode', that.parent).value === 'content' ? e.key : e.code;
       let keyText = C.getKeyText(key);
+
+      // Update the shortcut input with the new key
       if ($(this).val()) {
+        // This is not the first key of the shortcut, add it to the list
         if ($(this).val().split('+').indexOf(key) == -1) { // ignore automatic repeat keydown
           $(this).val($(this).val() + '+' + key);
           that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+' + keyText);
         }
       }
       else {
+        // This is the first key of the shortcut
         $(this).val(key);
         that.$inputs.eq(1).val(keyText);
       }
+
       C.saveChange(that);
       e.preventDefault();
     }).focus(function () {
       $(this).data('need-reset', true);
-      // $(this).data('watch-blur', true);
     }).blur(function () {
+      // Some shortcut like Alt + Tab can't be detected as they focus out the windows, we can however detect this blur to try to detect the shortcut
+      // The user focus out the input, we need to know if this is just the input or the whole window
       if (!document.hasFocus()) {
+        // The whole windows have been unfocused
         $(this).val($(this).val() + '+blur');
         that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+?');
         C.saveChange(that);
       }
     });
     this.$inputs.eq(1).blur(function () {
+      // The user leaved the alternate text input, we need to check if it's content is correct (i.e. have the good + amount)
+
+      // Split shortcut key, case where the key + is part of the shortuct (Ctrl++ or Ctrl+++a) need to be handled
+      // Split work with regex, if there are matching parenthesis, they are included,
+      // however it will need to be cleaned from undefined and empty string that might appear
       let countKeys = that.$inputs.eq(0).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
       let countKeysText = $(this).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
       if (countKeys != countKeysText) {
         $(this).val(that.$inputs.eq(0).val());
       }
       C.saveChange(that);
-    }); // .hide();
-    /* // Does not work, input get blur before windows 
-    $(window).blur(function(){
-       if(this.$inputs.eq(0).data('watch-blur')) {
-         $(this).val($(this).val() + '+' + key);
-         that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+' + keyText);
-       }
-     });
-     */
+    });
 
     this.$errors = this.$item.children('.h5p-errors');
 
@@ -96,6 +103,9 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
     return H5PEditor.createFieldMarkup(this.field, input, id);
   };
 
+  /**
+   * Save changes
+   */
   C.saveChange = function (that) {
     that.params = {
       'keys': that.$inputs.eq(0).val(),
@@ -108,14 +118,20 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
    * Validate the current values.
    */
   C.prototype.validate = function () {
+    // Check if all fields have been filled
     if (this.params === undefined || this.params.keys === undefined || this.params.keysText === undefined) {
-      this.$errors.append(H5PEditor.createError(C.t("error:mustBeFilled")));
+      this.$errors.append(H5PEditor.createError(C.t('error:mustBeFilled')));
     }
-    //let countKeys = (this.params.keys.match(/[^+]\+[^+]/g) || []).length + (this.params.keys.match(/\+\+\+/g) || []).length;
+
+    // Check if alternate text content is correct (i.e. have the good + amount)
+
+    // Split shortcut key, case where the key + is part of the shortuct (Ctrl++ or Ctrl+++a) need to be handled
+    // Split work with regex, if there are matching parenthesis, they are included,
+    // however it will need to be cleaned from undefined and empty string that might appear
     let countKeys = this.params.keys.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
     let countKeysText = this.params.keysText.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
     if (countKeys !== countKeysText) {
-      this.$errors.append(H5PEditor.createError(C.t("error:invalidShortcut")));
+      this.$errors.append(H5PEditor.createError(C.t('error:invalidShortcut')));
     }
     return H5PEditor.checkErrors(this.$errors, this.$inputs, true);
   };
@@ -127,6 +143,12 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
     this.$item.remove();
   };
 
+  /**
+   * Automatically translate some of the key code to a more readable content
+   * For exemple
+   *   Control key will be shown as Ctrl
+   *   Letter key will be shown as uppercase (i.e. "a" will be shown as "A")
+   */
   C.getKeyText = function (key) {
     let keyTranslation = {
       'Control': 'Ctrl'
