@@ -132,7 +132,6 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
       'Control': 'Ctrl'
     };
 
-    // eslint-disable-next-line no-prototype-builtins
     if (keyTranslation.hasOwnProperty(key)) {
       return keyTranslation[key];
     }
