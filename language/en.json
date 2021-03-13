@@ -1,0 +1,8 @@
+{
+    "libraryStrings": {
+        "clickToSet": "Click here to set shortcut",
+        "alternativeText": "Alternative Text",
+        "error:mustBeFilled": "A shortcut need to be selected",
+        "error:invalidShortcut": "Invalid shortcut"
+    }
+}
