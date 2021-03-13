@@ -46,7 +46,8 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
           $(this).val($(this).val() + '+' + key);
           that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+' + keyText);
         }
-      } else {
+      }
+      else {
         $(this).val(key);
         that.$inputs.eq(1).val(keyText);
       }
@@ -54,30 +55,30 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
       e.preventDefault();
     }).focus(function () {
       $(this).data('need-reset', true);
-     // $(this).data('watch-blur', true);
-    }).blur(function(){
-      if(!document.hasFocus()) {
+      // $(this).data('watch-blur', true);
+    }).blur(function () {
+      if (!document.hasFocus()) {
         $(this).val($(this).val() + '+blur');
         that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+?');
         C.saveChange(that);
       }
     });
     this.$inputs.eq(1).blur(function () {
-      let countKeys = that.$inputs.eq(0).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x=>x!==undefined&&x!='').length;
-      let countKeysText = $(this).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x=>x!==undefined&&x!='').length;
+      let countKeys = that.$inputs.eq(0).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
+      let countKeysText = $(this).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
       if (countKeys != countKeysText) {
-        $(this).val(that.$inputs.eq(0).val())
+        $(this).val(that.$inputs.eq(0).val());
       }
       C.saveChange(that);
     }); // .hide();
-   /* // Does not work, input get blur before windows 
-   $(window).blur(function(){
-      if(this.$inputs.eq(0).data('watch-blur')) {
-        $(this).val($(this).val() + '+' + key);
-        that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+' + keyText);
-      }
-    });
-    */
+    /* // Does not work, input get blur before windows 
+    $(window).blur(function(){
+       if(this.$inputs.eq(0).data('watch-blur')) {
+         $(this).val($(this).val() + '+' + key);
+         that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+' + keyText);
+       }
+     });
+     */
 
     this.$errors = this.$item.children('.h5p-errors');
 
@@ -88,35 +89,35 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
    */
   C.prototype.createHtml = function () {
     const id = H5PEditor.getNextFieldId(this.field);
-    const descriptionId = (this.field.description !== undefined ? H5PEditor.getDescriptionId(id) : undefined)
+    const descriptionId = (this.field.description !== undefined ? H5PEditor.getDescriptionId(id) : undefined);
     var shortcutInput = H5PEditor.createText(this.params !== undefined ? this.params.keys : undefined, undefined, C.t('clickToSet'), id, descriptionId);
     var shortcutTextInput = H5PEditor.createText(this.params !== undefined ? this.params.keysText : undefined, undefined, C.t('alternativeText'), undefined, descriptionId);
     var input = shortcutInput + shortcutTextInput;
     return H5PEditor.createFieldMarkup(this.field, input, id);
   };
 
-  C.saveChange = function (that){
+  C.saveChange = function (that) {
     that.params = {
       'keys': that.$inputs.eq(0).val(),
       'keysText': that.$inputs.eq(1).val()
     };
     that.setValue(that.field, that.params);
-  }
+  };
 
   /**
    * Validate the current values.
    */
   C.prototype.validate = function () {
-      if(this.params === undefined || this.params.keys === undefined || this.params.keysText === undefined) {
-        this.$errors.append(H5PEditor.createError(C.t("error:mustBeFilled")));
-      } 
-      //let countKeys = (this.params.keys.match(/[^+]\+[^+]/g) || []).length + (this.params.keys.match(/\+\+\+/g) || []).length;
-      let countKeys = this.params.keys.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x=>x!==undefined&&x!='').length;
-      let countKeysText = this.params.keysText.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x=>x!==undefined&&x!='').length;
-      if(countKeys !== countKeysText) {
-        this.$errors.append(H5PEditor.createError(C.t("error:invalidShortcut")));
-      }
-      return H5PEditor.checkErrors(this.$errors, this.$inputs, true);
+    if (this.params === undefined || this.params.keys === undefined || this.params.keysText === undefined) {
+      this.$errors.append(H5PEditor.createError(C.t("error:mustBeFilled")));
+    }
+    //let countKeys = (this.params.keys.match(/[^+]\+[^+]/g) || []).length + (this.params.keys.match(/\+\+\+/g) || []).length;
+    let countKeys = this.params.keys.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
+    let countKeysText = this.params.keysText.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
+    if (countKeys !== countKeysText) {
+      this.$errors.append(H5PEditor.createError(C.t("error:invalidShortcut")));
+    }
+    return H5PEditor.checkErrors(this.$errors, this.$inputs, true);
   };
 
   /**
@@ -129,8 +130,9 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
   C.getKeyText = function (key) {
     let keyTranslation = {
       'Control': 'Ctrl'
-    }
+    };
 
+    // eslint-disable-next-line no-prototype-builtins
     if (keyTranslation.hasOwnProperty(key)) {
       return keyTranslation[key];
     }
@@ -141,7 +143,7 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
 
     return key;
 
-  }
+  };
 
   /**
    * Local translate function.
