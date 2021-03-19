@@ -28,7 +28,7 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
    * @returns {undefined}
    */
   C.prototype.appendTo = function ($wrapper) {
-    var that = this;
+    const that = this;
 
     this.$item = $(this.createHtml()).appendTo($wrapper);
     this.$item.addClass('h5p-shortcut-selector');
@@ -42,8 +42,8 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
       }
       $(this).data('need-reset', false);
 
-      let key = H5PEditor.findField('shortcutMode', that.parent).value === 'content' ? e.key : e.code;
-      let keyText = C.getKeyText(key);
+      const key = H5PEditor.findField('shortcutMode', that.parent).value === 'content' ? e.key : e.code;
+      const keyText = C.getKeyText(key);
 
       // Update the shortcut input with the new key
       if ($(this).val()) {
@@ -79,8 +79,8 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
       // Split shortcut key, case where the key + is part of the shortuct (Ctrl++ or Ctrl+++a) need to be handled
       // Split work with regex, if there are matching parenthesis, they are included,
       // however it will need to be cleaned from undefined and empty string that might appear
-      let countKeys = that.$inputs.eq(0).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
-      let countKeysText = $(this).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
+      const countKeys = that.$inputs.eq(0).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
+      const countKeysText = $(this).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
       if (countKeys !== countKeysText) {
         $(this).val(that.$inputs.eq(0).val());
       }
@@ -97,9 +97,9 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
   C.prototype.createHtml = function () {
     const id = H5PEditor.getNextFieldId(this.field);
     const descriptionId = (this.field.description !== undefined ? H5PEditor.getDescriptionId(id) : undefined);
-    var shortcutInput = H5PEditor.createText(this.params !== undefined ? this.params.keys : undefined, undefined, C.t('clickToSet'), id, descriptionId);
-    var shortcutTextInput = H5PEditor.createText(this.params !== undefined ? this.params.keysText : undefined, undefined, C.t('alternativeText'), undefined, descriptionId);
-    var input = shortcutInput + shortcutTextInput;
+    const shortcutInput = H5PEditor.createText(this.params !== undefined ? this.params.keys : undefined, undefined, C.t('clickToSet'), id, descriptionId);
+    const shortcutTextInput = H5PEditor.createText(this.params !== undefined ? this.params.keysText : undefined, undefined, C.t('alternativeText'), undefined, descriptionId);
+    const input = shortcutInput + shortcutTextInput;
     return H5PEditor.createFieldMarkup(this.field, input, id);
   };
 
@@ -128,8 +128,8 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
     // Split shortcut key, case where the key + is part of the shortuct (Ctrl++ or Ctrl+++a) need to be handled
     // Split work with regex, if there are matching parenthesis, they are included,
     // however it will need to be cleaned from undefined and empty string that might appear
-    let countKeys = this.params.keys.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
-    let countKeysText = this.params.keysText.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
+    const countKeys = this.params.keys.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
+    const countKeysText = this.params.keysText.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
     if (countKeys !== countKeysText) {
       this.$errors.append(H5PEditor.createError(C.t('error:invalidShortcut')));
     }
@@ -150,7 +150,7 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
    *   Letter key will be shown as uppercase (i.e. "a" will be shown as "A")
    */
   C.getKeyText = function (key) {
-    let keyTranslation = {
+    const keyTranslation = {
       'Control': C.t('keys:Control')
     };
 
