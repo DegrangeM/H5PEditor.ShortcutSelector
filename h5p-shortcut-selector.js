@@ -79,8 +79,12 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
       // Split shortcut key, case where the key + is part of the shortuct (Ctrl++ or Ctrl+++a) need to be handled
       // Split work with regex, if there are matching parenthesis, they are included,
       // however it will need to be cleaned from undefined and empty string that might appear
-      const countKeys = that.$inputs.eq(0).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
-      const countKeysText = $(this).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
+      const countKeys = that.$inputs.eq(0).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(function (x) {
+        return x !== undefined && x !== '';
+      }).length;
+      const countKeysText = $(this).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(function (x) {
+        return x !== undefined && x !== '';
+      }).length;
       if (countKeys !== countKeysText) {
         $(this).val(that.$inputs.eq(0).val());
       }
@@ -128,8 +132,12 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
     // Split shortcut key, case where the key + is part of the shortuct (Ctrl++ or Ctrl+++a) need to be handled
     // Split work with regex, if there are matching parenthesis, they are included,
     // however it will need to be cleaned from undefined and empty string that might appear
-    const countKeys = this.params.keys.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
-    const countKeysText = this.params.keysText.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
+    const countKeys = this.params.keys.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(function (x) {
+      return x !== undefined && x !== '';
+    }).length;
+    const countKeysText = this.params.keysText.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(function (x) {
+      return x !== undefined && x !== '';
+    }).length;
     if (countKeys !== countKeysText) {
       this.$errors.append(H5PEditor.createError(C.t('error:invalidShortcut')));
     }
