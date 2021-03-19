@@ -38,7 +38,7 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
       // This allow the user to focus the field then do nothing and focus out without resetting the field
       // This is usefull as the user can focus the field by clicking on the label, pressing tab, etc.
       if ($(this).data('need-reset')) {
-        $(this).val("");
+        $(this).val('');
       }
       $(this).data('need-reset', false);
 
