@@ -151,7 +151,7 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
    */
   C.getKeyText = function (key) {
     let keyTranslation = {
-      'Control': 'Ctrl'
+      'Control': C.t('keys:Control')
     };
 
     if (keyTranslation.hasOwnProperty(key)) {
