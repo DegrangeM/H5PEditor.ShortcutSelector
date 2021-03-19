@@ -71,6 +71,14 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
         $(this).val($(this).val() + '+blur');
         that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+?');
         C.saveChange(that);
+      } else { // check again in 100ms
+        setTimeout(function () {
+          if (!document.hasFocus()) {
+            that.$inputs.eq(0).val(that.$inputs.eq(0).val() + '+blur');
+            that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+?');
+            C.saveChange(that);
+          }
+        }, 100);
       }
     });
     this.$inputs.eq(1).blur(function () {
