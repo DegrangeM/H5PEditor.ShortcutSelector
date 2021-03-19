@@ -41,14 +41,14 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
         $(this).val("");
       }
       $(this).data('need-reset', false);
-      
+
       let key = H5PEditor.findField('shortcutMode', that.parent).value === 'content' ? e.key : e.code;
       let keyText = C.getKeyText(key);
 
       // Update the shortcut input with the new key
       if ($(this).val()) {
         // This is not the first key of the shortcut, add it to the list
-        if ($(this).val().split('+').indexOf(key) == -1) { // ignore automatic repeat keydown
+        if ($(this).val().split('+').indexOf(key) === -1) { // ignore automatic repeat keydown
           $(this).val($(this).val() + '+' + key);
           that.$inputs.eq(1).val(that.$inputs.eq(1).val() + '+' + keyText);
         }
@@ -79,9 +79,9 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
       // Split shortcut key, case where the key + is part of the shortuct (Ctrl++ or Ctrl+++a) need to be handled
       // Split work with regex, if there are matching parenthesis, they are included,
       // however it will need to be cleaned from undefined and empty string that might appear
-      let countKeys = that.$inputs.eq(0).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
-      let countKeysText = $(this).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
-      if (countKeys != countKeysText) {
+      let countKeys = that.$inputs.eq(0).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
+      let countKeysText = $(this).val().split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
+      if (countKeys !== countKeysText) {
         $(this).val(that.$inputs.eq(0).val());
       }
       C.saveChange(that);
@@ -128,8 +128,8 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
     // Split shortcut key, case where the key + is part of the shortuct (Ctrl++ or Ctrl+++a) need to be handled
     // Split work with regex, if there are matching parenthesis, they are included,
     // however it will need to be cleaned from undefined and empty string that might appear
-    let countKeys = this.params.keys.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
-    let countKeysText = this.params.keysText.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x != '').length;
+    let countKeys = this.params.keys.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
+    let countKeysText = this.params.keysText.split(/(?:(?:^|\+)(\+)(?:\+|$))|\+/).filter(x => x !== undefined && x !== '').length;
     if (countKeys !== countKeysText) {
       this.$errors.append(H5PEditor.createError(C.t('error:invalidShortcut')));
     }
