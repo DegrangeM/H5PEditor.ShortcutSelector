@@ -1,3 +1,7 @@
 .h5p-shortcut-selector input.h5peditor-text {
-  width: 50%;
+  width: 47.5%;
+}
+
+.h5p-shortcut-selector input.h5peditor-text:first-of-type {
+  margin-right: 2.5%;
 }
