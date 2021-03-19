@@ -153,7 +153,7 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
 
   /**
    * Automatically translate some of the key code to a more readable content
-   * For exemple
+   * For example
    *   Control key will be shown as Ctrl
    *   Letter key will be shown as uppercase (i.e. "a" will be shown as "A")
    */
