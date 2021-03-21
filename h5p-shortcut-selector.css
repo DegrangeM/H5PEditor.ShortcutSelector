@@ -1,7 +1,24 @@
-.h5p-shortcut-selector input.h5peditor-text {
+/*.h5p-shortcut-selector input.h5peditor-text {
   width: 49%;
 }
 
 .h5p-shortcut-selector input.h5peditor-text:first-of-type {
   margin-right: 2%;
+}*/
+
+.h5p-shortcut-selector .h5p-shortcut-selector-shortcut {
+  display: flex;
+}
+
+.h5p-shortcut-selector .h5p-shortcut-selector-shortcut input {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.h5p-shortcut-selector .h5p-shortcut-selector-shortcut input[disabled] {
+  opacity: 0.5;
+}
+
+.h5p-shortcut-selector .h5p-shortcut-selector-shortcut button {
+  margin: 0px;
 }
