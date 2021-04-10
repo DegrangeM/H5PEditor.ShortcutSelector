@@ -1,12 +1,12 @@
 /**
- * Duration widget module
+ * Shortcut Selector widget module
  *
  * @param {jQuery} $
  */
 H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) {
 
   /**
-   * Creates a time picker.
+   * Creates a shortcut selector.
    *
    * @param {mixed} parent
    * @param {object} field
@@ -117,7 +117,7 @@ H5PEditor.widgets.shortcutSelector = H5PEditor.shortcutSelector = (function ($) 
     const descriptionId = (this.field.description !== undefined ? H5PEditor.getDescriptionId(id) : undefined);
     const shortcutInput = H5PEditor.createText(this.params !== undefined ? this.params.keys : undefined, undefined, C.t('shortcut'), id, descriptionId);
     const shortcutTextInput = H5PEditor.createText(this.params !== undefined ? this.params.keysText : undefined, undefined, C.t('alternativeText'), undefined, descriptionId);
-    const input = '<div class="h5p-shortcut-selector-shortcut"><button type="button" class="h5peditor-button-textual"></button>' /* TODO */ + shortcutInput + shortcutTextInput + '</div>';
+    const input = '<div class="h5p-shortcut-selector-shortcut"><button type="button" class="h5peditor-button-textual"></button>' + shortcutInput + shortcutTextInput + '</div>';
     return H5PEditor.createFieldMarkup(this.field, input, id);
   };
 
